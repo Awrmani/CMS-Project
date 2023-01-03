@@ -23,7 +23,6 @@
     <?php
     $query = "SELECT * FROM categories";
     $allCatsSideBar = mysqli_query($connection, $query);
-
     ?>
 
     <!-- Blog Categories Well -->
