@@ -24,9 +24,7 @@
                 $query = "UPDATE categories SET cat_title = '{$catUpdateTitle}' WHERE cat_id = {$catId} ";
                 $updateCat = mysqli_query($connection, $query);
 
-                if (!$updateCat) {
-                    die("QUERY FAILED" . mysqli_error($connection));
-                } else {
+                if (confirmQuery($updateCat)) {
                     header("Location: ./categories.php");
                 }
             }
