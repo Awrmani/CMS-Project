@@ -13,7 +13,11 @@
 
 
             <?php
-            $query = "SELECT * FROM posts";
+            if (isset($_GET['cat'])) {
+                $postCatId = $_GET['cat'];
+            }
+
+            $query = "SELECT * FROM posts WHERE post_category_id = {$postCatId}";
 
             $allPosts = mysqli_query($connection, $query);
             while ($row = mysqli_fetch_assoc($allPosts)) {
