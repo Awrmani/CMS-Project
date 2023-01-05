@@ -11,7 +11,7 @@ if (isset($_POST['post_create'])) {
     $postTags = $_POST['post_tags'];
     $postContent = $_POST['post_content'];
     $postDate = date('d-m-y');
-    $postCommentCNT = 4;
+    $postCommentCNT = 0;
 
     move_uploaded_file($postImageTemp, "../images/$postImage");
 

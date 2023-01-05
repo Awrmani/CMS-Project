@@ -1,8 +1,8 @@
-<?php include "includes/db.php" ?>
-<?php include "includes/header.php" ?>
+<?php include "includes/db.php"; ?>
+<?php include "includes/header.php"; ?>
 
 <!-- Navigation -->
-<?php include "includes/navigation.php" ?>
+<?php include "includes/navigation.php"; ?>
 <!-- Page Content -->
 <div class="container">
 
@@ -53,6 +53,7 @@
             }
             ?>
 
+            <!-- Blog Comments -->
             <?php
             if (isset($_POST['comment_create'])) {
                 $commentPostId = $_GET['p_id'];
@@ -68,6 +69,11 @@
 
                 $createComment = mysqli_query($connection, $query);
                 confirmQuery($createComment);
+
+                $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 
+                          WHERE post_id = {$postId}";
+                $commentCount = mysqli_query($connection, $query);
+                confirmQuery($commentCount);
             }
 
 
@@ -99,48 +105,38 @@
 
             <!-- Posted Comments -->
 
-            <!-- Comment -->
-            <div class="media">
-                <a class="pull-left" href="#">
-                    <img class="media-object" src="http://placehold.it/64x64" alt="">
-                </a>
-                <div class="media-body">
-                    <h4 class="media-heading">Start Bootstrap
-                        <small>August 25, 2014 at 9:30 PM</small>
-                    </h4>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                </div>
-            </div>
+            <?php
+            $query = "SELECT * FROM comments WHERE comment_post_id = {$postId} 
+                      AND comment_status = 'approved' 
+                      ORDER BY comment_date DESC ";
+            $showComment = mysqli_query($connection, $query);
+            confirmQuery($showComment);
 
-            <!-- Comment -->
-            <div class="media">
-                <a class="pull-left" href="#">
-                    <img class="media-object" src="http://placehold.it/64x64" alt="">
-                </a>
-                <div class="media-body">
-                    <h4 class="media-heading">Start Bootstrap
-                        <small>August 25, 2014 at 9:30 PM</small>
-                    </h4>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                    <!-- Nested Comment -->
-                    <div class="media">
-                        <a class="pull-left" href="#">
-                            <img class="media-object" src="http://placehold.it/64x64" alt="">
-                        </a>
-                        <div class="media-body">
-                            <h4 class="media-heading">Nested Start Bootstrap
-                                <small>August 25, 2014 at 9:30 PM</small>
-                            </h4>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
+            while ($row = mysqli_fetch_array($showComment)) {
+                $commentDate = $row['comment_date'];
+                $commentContent = $row['comment_content'];
+                $commentAuthor = $row['comment_author'];
+            ?>
+                <!-- Comment -->
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" src="http://placehold.it/64x64" alt="">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading"><?php print($commentAuthor); ?>
+                            <small><?php print($commentDate); ?></small>
+                        </h4>
+                        <?php print($commentContent); ?>
                     </div>
-                    <!-- End Nested Comment -->
                 </div>
-            </div>
+            <?php
+            }
+            ?>
+
 
         </div>
 
-        <?php include "includes/sidebar.php" ?>
+        <?php include "includes/sidebar.php"; ?>
 
     </div>
     <!-- /.row -->
@@ -148,6 +144,6 @@
     <hr>
 
     <!-- Footer -->
-    <?php include "includes/footer.php" ?>
+    <?php include "includes/footer.php"; ?>
 
     </html>

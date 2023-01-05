@@ -8,6 +8,9 @@
             <th>Status</th>
             <th>In Response to</th>
             <th>Date</th>
+            <th>Approve</th>
+            <th>Reject</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -92,6 +95,12 @@ if (isset($_GET['delete'])) {
     $commentId = $_GET['delete'];
 
     $query = "DELETE FROM comments WHERE comment_id = {$commentId} ";
+    $deleteComment = mysqli_query($connection, $query);
+
+    confirmQuery($deleteComment);
+
+    $query = "UPDATE posts SET post_comment_count = post_comment_count - 1 
+              WHERE post_id = {$postId}";
     $deleteComment = mysqli_query($connection, $query);
 
     confirmQuery($deleteComment);
