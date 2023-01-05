@@ -18,7 +18,8 @@
 
                     <h1 class="page-header">
                         Welcome to the Admin page
-                        <small>Author</small>
+                        
+                        <small><?php print($_SESSION['username']); ?></small>
                     </h1>
                 </div>
             </div>
