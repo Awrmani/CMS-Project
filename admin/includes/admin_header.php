@@ -3,9 +3,11 @@
 <?php include "../includes/db.php"; ?>
 <?php include "functions.php"; ?>
 <?php
-if (isset($_SESSION['user_role'])) {
+if (!isset($_SESSION['user_role'])) {
+    header("Location: ../index.php");
+
     if ($_SESSION['user_role'] == "viewer") {
-        header("Location: ../index.php");
+        //header("Location: ../index.php");
     }
 }
 ?>

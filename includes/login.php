@@ -1,4 +1,5 @@
 <?php include "db.php"; ?>
+<?php include "../admin/functions.php"; ?>
 <?php session_start(); ?>
 
 <?php
@@ -11,7 +12,7 @@ if (isset($_POST['login'])) {
 
     $query = "SELECT * FROM users WHERE username = '{$username}' ";
     $user = mysqli_query($connection, $query);
-    //confirmQuery($user);
+    confirmQuery($user);
 
     while($row = mysqli_fetch_array($user)) {
         $dbUserId = $row['user_id'];
@@ -22,9 +23,7 @@ if (isset($_POST['login'])) {
         $dbUserRole = $row['user_role'];
     }
 
-    if ($username !== $dbUsername && $password !== $dbUserPassword) {
-        header("Location: ../index.php");
-    } else if ($username == $dbUsername && $password == $dbUserPassword) {
+    if ($username === $dbUsername && $password === $dbUserPassword) {
         $_SESSION['username'] = $dbUsername;
         $_SESSION['first_name'] = $dbUserFirstName;
         $_SESSION['last_name'] = $dbUserLastName;
