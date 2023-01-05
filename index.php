@@ -13,7 +13,7 @@
 
 
             <?php
-            $query = "SELECT * FROM posts";
+            $query = "SELECT * FROM posts ";
 
             $allPosts = mysqli_query($connection, $query);
             while ($row = mysqli_fetch_assoc($allPosts)) {
@@ -23,6 +23,11 @@
                 $postDate = $row['post_date'];
                 $postImage = $row['post_image'];
                 $postContent = substr($row['post_content'], 0, 200);
+                $postStatus = $row['post_status'];
+
+                if ($postStatus !== "published") {
+                    print("<h1 class='text-center'>Sorry! There are no posts to display!</h1>");
+                } else {
             ?>
 
                 <h1 class="page-header">
@@ -49,6 +54,7 @@
                 <hr>
 
             <?php
+                }
             }
             ?>
 

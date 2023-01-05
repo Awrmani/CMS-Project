@@ -1,23 +1,24 @@
 <?php
 if (isset($_GET['p_id'])) {
     $postId = $_GET['p_id'];
+
+    $query = "SELECT * FROM posts WHERE post_id = {$postId}";
+    $postEdit = mysqli_query($connection, $query);
+
+    while ($row = mysqli_fetch_assoc($postEdit)) {
+        //$postId = $row['post_id'];
+        $postAuthor = $row['post_author'];
+        $postTitle = $row['post_title'];
+        $postCatId = $row['post_category_id'];
+        $postStatus = $row['post_status'];
+        $postImage = $row['post_image'];
+        $postContent = $row['post_content'];
+        $postTags = $row['post_tags'];
+        $postCommentCNT = $row['post_comment_count'];
+        $postDate = $row['post_date'];
+    }
 }
 
-$query = "SELECT * FROM posts WHERE post_id = {$postId}";
-$postEdit = mysqli_query($connection, $query);
-
-while ($row = mysqli_fetch_assoc($postEdit)) {
-    //$postId = $row['post_id'];
-    $postAuthor = $row['post_author'];
-    $postTitle = $row['post_title'];
-    $postCatId = $row['post_category_id'];
-    $postStatus = $row['post_status'];
-    $postImage = $row['post_image'];
-    $postContent = $row['post_content'];
-    $postTags = $row['post_tags'];
-    $postCommentCNT = $row['post_comment_count'];
-    $postDate = $row['post_date'];
-}
 
 if (isset($_POST['post_update'])) {
     $postAuthor = $_POST['post_author'];
@@ -55,9 +56,7 @@ if (isset($_POST['post_update'])) {
 
     if (confirmQuery($udpatePost)) {
         header("Location: posts.php");
-
     }
-    
 }
 
 
