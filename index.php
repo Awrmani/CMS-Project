@@ -25,9 +25,7 @@
                 $postContent = substr($row['post_content'], 0, 200);
                 $postStatus = $row['post_status'];
 
-                if ($postStatus !== "published") {
-                    print("<h1 class='text-center'>Sorry! There are no posts to display!</h1>");
-                } else {
+                if ($postStatus == "published") {
             ?>
 
                 <h1 class="page-header">

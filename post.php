@@ -45,7 +45,6 @@
                 <img class="img-responsive" src="images/<?php print($postImage); ?>" alt="PHP Logo">
                 <hr>
                 <p><?php print($postContent); ?></p>
-                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                 <hr>
 
