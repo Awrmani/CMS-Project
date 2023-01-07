@@ -127,7 +127,7 @@
                                     <i class="fa fa-list fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                <?php
+                                    <?php
                                     $query = "SELECT * FROM categories ";
                                     $allCategories = mysqli_query($connection, $query);
                                     if (confirmQuery($allCategories)) {
@@ -152,6 +152,60 @@
                 </div>
             </div>
             <!-- /.row -->
+            <?php
+            $query = "SELECT * FROM posts WHERE post_status = 'draft' ";
+            $draftPosts = mysqli_query($connection, $query);
+            if (confirmQuery($draftPosts)) {
+                $draftPostCount = mysqli_num_rows($draftPosts);
+            }
+
+            $query = "SELECT * FROM comments WHERE comment_status = 'rejected' ";
+            $RejectedComments = mysqli_query($connection, $query);
+            if (confirmQuery($RejectedComments)) {
+                $RejectedCommentCount = mysqli_num_rows($RejectedComments);
+            }
+
+            $query = "SELECT * FROM users WHERE user_role = 'viewer' ";
+            $viewerUsers = mysqli_query($connection, $query);
+            if (confirmQuery($viewerUsers)) {
+                $viewerUserCount = mysqli_num_rows($viewerUsers);
+            }
+            ?>
+
+            <div class="row">
+                <script type="text/javascript">
+                    google.charts.load('current', {
+                        'packages': ['bar']
+                    });
+                    google.charts.setOnLoadCallback(drawChart);
+
+                    function drawChart() {
+                        var data = google.visualization.arrayToDataTable([
+                            ['Data', 'Count'],
+                            <?php
+                            $elements = ['Active Post', 'Draft Posts', 'Comments', 'Rejected Comments', 'Users', 'Viewers', 'Categories'];
+                            $count = [$postCount, $draftPostCount, $commentCount, $RejectedCommentCount, $userCount, $viewerUserCount, $categoryCount];
+
+                            for ($i = 0; $i < 7; $i++) {
+                                print("['{$elements[$i]}', {$count[$i]}], ");
+                            }
+                            ?>
+                         ]);
+
+                        var options = {
+                            chart: {
+                                title: '',
+                                subtitle: '',
+                            }
+                        };
+
+                        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+                        chart.draw(data, google.charts.Bar.convertOptions(options));
+                    }
+                </script>
+                <div id="columnchart_material" style="width: 'auto'; height: 500px;"></div>
+            </div>
 
         </div>
         <!-- /.container-fluid -->
